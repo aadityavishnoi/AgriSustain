@@ -131,8 +131,114 @@
         </div>
     </div>
 
-    <!-- Expert Chat Integration -->
-    <div id="chatContainer"></div>
+    <!-- Expert Chat Widget -->
+    <div class="expert-chat-widget" id="expertChatWidget">
+        <!-- Floating Chat Button -->
+        <button class="chat-float-btn" id="chatFloatBtn" onclick="toggleExpertChat()">
+            <span class="chat-icon">👨‍🌾</span>
+            <span class="chat-pulse"></span>
+            <span class="chat-text">Chat with Experts</span>
+        </button>
+
+        <!-- Expert Selection Panel -->
+        <div class="expert-panel" id="expertPanel" style="display: none;">
+            <div class="expert-panel-header">
+                <h3>🌾 AgriSustain Experts</h3>
+                <button class="close-panel-btn" onclick="closeExpertPanel()">×</button>
+            </div>
+            <p class="expert-panel-subtitle">Connect with verified agricultural experts</p>
+
+            <div class="experts-list">
+                <div class="expert-item" onclick="startChat('dr_sharma')">
+                    <div class="expert-avatar">
+                        <span class="avatar-img">👨‍🌾</span>
+                        <span class="status-online"></span>
+                    </div>
+                    <div class="expert-info">
+                        <h4>Dr. Rajesh Sharma</h4>
+                        <p class="expert-specialty">🎓 Organic Farming Specialist</p>
+                        <p class="expert-exp">15+ years experience</p>
+                        <div class="expert-rating">⭐⭐⭐⭐⭐ <span>(450 consultations)</span></div>
+                    </div>
+                    <button class="chat-btn">Chat Now</button>
+                </div>
+
+                <div class="expert-item" onclick="startChat('dr_patel')">
+                    <div class="expert-avatar">
+                        <span class="avatar-img">👩‍🌾</span>
+                        <span class="status-online"></span>
+                    </div>
+                    <div class="expert-info">
+                        <h4>Dr. Priya Patel</h4>
+                        <p class="expert-specialty">🌱 Soil Science Expert</p>
+                        <p class="expert-exp">12+ years experience</p>
+                        <div class="expert-rating">⭐⭐⭐⭐⭐ <span>(380 consultations)</span></div>
+                    </div>
+                    <button class="chat-btn">Chat Now</button>
+                </div>
+
+                <div class="expert-item" onclick="startChat('prof_kumar')">
+                    <div class="expert-avatar">
+                        <span class="avatar-img">👨‍🔬</span>
+                        <span class="status-online"></span>
+                    </div>
+                    <div class="expert-info">
+                        <h4>Prof. Amit Kumar</h4>
+                        <p class="expert-specialty">🌾 Crop Management</p>
+                        <p class="expert-exp">20+ years experience</p>
+                        <div class="expert-rating">⭐⭐⭐⭐⭐ <span>(520 consultations)</span></div>
+                    </div>
+                    <button class="chat-btn">Chat Now</button>
+                </div>
+
+                <div class="expert-item" onclick="startChat('dr_singh')">
+                    <div class="expert-avatar">
+                        <span class="avatar-img">👨‍⚕️</span>
+                        <span class="status-online"></span>
+                    </div>
+                    <div class="expert-info">
+                        <h4>Dr. Vikram Singh</h4>
+                        <p class="expert-specialty">🐛 Pest Control Specialist</p>
+                        <p class="expert-exp">10+ years experience</p>
+                        <div class="expert-rating">⭐⭐⭐⭐⭐ <span>(290 consultations)</span></div>
+                    </div>
+                    <button class="chat-btn">Chat Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="chat-window" id="chatWindow" style="display: none;">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="expert-avatar-small">
+                        <span id="chatExpertAvatar">👨‍🌾</span>
+                        <span class="status-online-small"></span>
+                    </div>
+                    <div>
+                        <h4 id="chatExpertName">Expert Name</h4>
+                        <p id="chatExpertStatus">Online</p>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="chat-action-btn" onclick="minimizeChat()">−</button>
+                    <button class="chat-action-btn" onclick="closeChat()">×</button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here dynamically -->
+            </div>
+
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Type your question..."
+                    onkeypress="handleChatKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <span>➤</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script src="auth.js"></script>
     <script>
