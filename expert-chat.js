@@ -1,8 +1,8 @@
 // ===== Expert Chat Functionality =====
 
-// OpenAI API Configuration
-const OPENAI_API_KEY = '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';
-const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+// Google Gemini API Configuration
+const GEMINI_API_KEY = 'AIzaSyCErVbsEqte9rX0LahvSDvYUXayUOtQkaI';
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
 // Expert data
 const experts = {
@@ -130,7 +130,7 @@ function minimizeChat() {
 // Chat conversation history
 let conversationHistory = [];
 
-// Send message with ChatGPT API
+// Send message with Google Gemini API
 async function sendMessage() {
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
@@ -141,34 +141,38 @@ async function sendMessage() {
     addUserMessage(message);
     input.value = '';
 
-    // Add to conversation history
-    conversationHistory.push({
-        role: 'user',
-        content: message
-    });
-
     // Show typing indicator
     showTypingIndicator();
 
     try {
-        // Call OpenAI API
-        const response = await fetch(OPENAI_API_URL, {
+        // Build conversation context for Gemini
+        const systemPrompt = `You are ${currentExpert.name}, a ${currentExpert.specialty} specializing in agricultural advice. Provide helpful, practical advice to farmers in a friendly and professional manner. Keep responses concise (2-3 sentences) and actionable. Use your expertise in ${currentExpert.specialty.toLowerCase()} to give specific recommendations.`;
+
+        // Combine conversation history into a single prompt
+        let fullPrompt = systemPrompt + '\n\n';
+        conversationHistory.forEach(msg => {
+            fullPrompt += `${msg.role === 'user' ? 'Farmer' : currentExpert.name}: ${msg.content}\n`;
+        });
+        fullPrompt += `Farmer: ${message}\n${currentExpert.name}:`;
+
+        // Call Google Gemini API
+        const response = await fetch(GEMINI_API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gpt-4',
-                messages: [
-                    {
-                        role: 'system',
-                        content: `You are ${currentExpert.name}, a ${currentExpert.specialty} specializing in agricultural advice. Provide helpful, practical advice to farmers in a friendly and professional manner. Keep responses concise (2-3 sentences) and actionable. Use your expertise in ${currentExpert.specialty.toLowerCase()} to give specific recommendations.`
-                    },
-                    ...conversationHistory
-                ],
-                temperature: 0.7,
-                max_tokens: 200
+                contents: [{
+                    parts: [{
+                        text: fullPrompt
+                    }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 200,
+                    topP: 0.8,
+                    topK: 40
+                }
             })
         });
 
@@ -176,10 +180,14 @@ async function sendMessage() {
 
         removeTypingIndicator();
 
-        if (data.choices && data.choices[0] && data.choices[0].message) {
-            const expertResponse = data.choices[0].message.content;
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const expertResponse = data.candidates[0].content.parts[0].text;
 
             // Add to conversation history
+            conversationHistory.push({
+                role: 'user',
+                content: message
+            });
             conversationHistory.push({
                 role: 'assistant',
                 content: expertResponse
@@ -190,7 +198,7 @@ async function sendMessage() {
             throw new Error('Invalid response from API');
         }
     } catch (error) {
-        console.error('Error calling OpenAI API:', error);
+        console.error('Error calling Gemini API:', error);
         removeTypingIndicator();
 
         // Fallback to pre-defined responses
