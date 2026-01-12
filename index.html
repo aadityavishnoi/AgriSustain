@@ -35,6 +35,9 @@
                 <li><a href="#insights" class="nav-link">Live Insights</a></li>
                 <li><a href="#export" class="nav-link">Export Info</a></li>
                 <li><a href="#health" class="nav-link">Health</a></li>
+                <li id="authNav"><a href="login.html" class="btn btn-login"
+                        style="padding: 5px 15px; margin-left: 10px; border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 5px;">Login</a>
+                </li>
             </ul>
             <button class="nav-toggle" id="navToggle">
                 <span></span>
@@ -859,7 +862,34 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="auth.js"></script>
     <script src="expert-chat.js"></script>
+    <script>
+        // Update navigation based on session
+        function updateNav() {
+            const session = getSession();
+            const authNav = document.getElementById('authNav');
+
+            if (session && authNav) {
+                const userDashboards = {
+                    farmer: 'farmer-dashboard.html',
+                    helper: 'helper-dashboard.html',
+                    vendor: 'vendor-dashboard.html',
+                    admin: 'admin-dashboard.html'
+                };
+
+                authNav.innerHTML = `
+                    <div class="user-profile-nav" style="display:flex; align-items:center; gap:10px; margin-left:15px;">
+                        <span style="color:var(--accent-gold); font-size:0.9rem;">Howdy, ${session.role}!</span>
+                        <a href="${userDashboards[session.role] || '#'}" class="btn" style="padding:4px 10px; font-size:0.8rem; background:var(--accent-gold); color:var(--primary-dark); border-radius:4px; text-decoration:none;">Dashboard</a>
+                        <button onclick="logout()" style="background:none; border:none; color:#ff6b6b; cursor:pointer; font-size:0.8rem; text-decoration:underline;">Logout</button>
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateNav);
+    </script>
 </body>
 
 </html>

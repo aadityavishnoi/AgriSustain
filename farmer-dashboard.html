@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - AgriSustain</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="expert-chat.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>🌾 AgriSustain</h2>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <span class="icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🌱</span>
+                <span>My Crops</span>
+            </a>
+            <a href="marketplace.html" class="menu-item">
+                <span class="icon">🏪</span>
+                <span>Marketplace</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🌦️</span>
+                <span>Weather</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🔬</span>
+                <span>Soil Health</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="user-welcome">
+                <h1>Welcome, <span id="userNameDisplay">Farmer</span>!</h1>
+                <p>Here's what's happening on your farm today.</p>
+            </div>
+            <div class="header-actions">
+                <p id="currentDate"></p>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🌾</div>
+                <div class="stat-info">
+                    <h3>Active Crops</h3>
+                    <p>4 Fields</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3>Total Sales</h3>
+                    <p>₹45,200</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">☁️</div>
+                <div class="stat-info">
+                    <h3>Weather</h3>
+                    <p>28°C, Clear</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crop Management -->
+        <div class="feature-section">
+            <h2>🌱 Current Crops Status</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Field Area</th>
+                        <th>Sowing Date</th>
+                        <th>Status</th>
+                        <th>Health</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wheat (Kanak)</td>
+                        <td>2.5 Acres</td>
+                        <td>Nov 15, 2025</td>
+                        <td><span class="status-badge status-active">Growing</span></td>
+                        <td>Good (88%)</td>
+                    </tr>
+                    <tr>
+                        <td>Mustard</td>
+                        <td>1.0 Acre</td>
+                        <td>Dec 02, 2025</td>
+                        <td><span class="status-badge status-active">Early Stage</span></td>
+                        <td>Excellent (95%)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Market Trends -->
+        <div class="feature-section">
+            <h2>📈 Marketplace Trends</h2>
+            <div class="dashboard-grid">
+                <div style="background:#f8f9fa; padding:15px; border-radius:10px;">
+                    <h4>Rice (Premium)</h4>
+                    <p style="color:green; font-weight:bold;">₹2,400/quintal (+2%)</p>
+                </div>
+                <div style="background:#f8f9fa; padding:15px; border-radius:10px;">
+                    <h4>Wheat</h4>
+                    <p style="color:red; font-weight:bold;">₹2,125/quintal (-1%)</p>
+                </div>
+                <div style="background:#f8f9fa; padding:15px; border-radius:10px;">
+                    <h4>Cotton</h4>
+                    <p style="color:green; font-weight:bold;">₹6,800/quintal (+5%)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expert Chat Integration -->
+    <div id="chatContainer"></div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Protect page and initialize user data
+        const session = protectPage('farmer');
+        if (session) {
+            document.getElementById('userNameDisplay').textContent = session.name;
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+
+        // Initialize Expert Chat dynamically or load it
+        // For this demo, we'll assume the script is included in index.html
+    </script>
+    <script src="expert-chat.js"></script>
+</body>
+
+</html>

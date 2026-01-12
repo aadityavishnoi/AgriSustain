@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard - AgriSustain</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>🏪 Vendor Hub</h2>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <span class="icon">📦</span>
+                <span>Orders</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🛒</span>
+                <span>My Inventory</span>
+            </a>
+            <a href="marketplace.html" class="menu-item">
+                <span class="icon">🌎</span>
+                <span>Global Market</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">💬</span>
+                <span>Farmer Chat</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="user-welcome">
+                <h1>Welcome, <span id="userNameDisplay">Vendor</span>!</h1>
+                <p>Manage your orders and inventory here.</p>
+            </div>
+            <div class="header-actions">
+                <p id="currentDate"></p>
+            </div>
+        </div>
+
+        <!-- Vendor Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🛍️</div>
+                <div class="stat-info">
+                    <h3>New Orders</h3>
+                    <p>8 Today</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3>Gross Revenue</h3>
+                    <p>₹1,25,000</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🚚</div>
+                <div class="stat-info">
+                    <h3>In Transit</h3>
+                    <p>14 Shipments</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="feature-section">
+            <h2>📦 Recent Orders</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Farmer/Source</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ORD-7821</td>
+                        <td>Green Valley Farms</td>
+                        <td>Organic Wheat</td>
+                        <td>50 Quintals</td>
+                        <td>₹1,10,000</td>
+                        <td><span class="status-badge status-active">Processing</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-7819</td>
+                        <td>Rajesh Kumar</td>
+                        <td>Mustard Oil</td>
+                        <td>200 Liters</td>
+                        <td>₹32,000</td>
+                        <td><span class="status-badge status-pending">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-7798</td>
+                        <td>Village Coop</td>
+                        <td>Seed Potatoes</td>
+                        <td>10 Bags</td>
+                        <td>₹15,000</td>
+                        <td><span class="status-badge status-alert">Dispatched</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Inventory Status -->
+        <div class="feature-section">
+            <h2>🛒 Quick Inventory Check</h2>
+            <div class="dashboard-grid">
+                <div
+                    style="background:#fff; border-left:5px solid #27ae60; padding:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                    <h4>NPK Fertilizer</h4>
+                    <p>Stock: 450 Units</p>
+                    <div style="width:100%; background:#eee; height:5px; margin-top:5px;">
+                        <div style="width:80%; background:#27ae60; height:5px;"></div>
+                    </div>
+                </div>
+                <div
+                    style="background:#fff; border-left:5px solid #f1c40f; padding:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                    <h4>Organic Seeds</h4>
+                    <p>Stock: 120 Units</p>
+                    <div style="width:100%; background:#eee; height:5px; margin-top:5px;">
+                        <div style="width:40%; background:#f1c40f; height:5px;"></div>
+                    </div>
+                </div>
+                <div
+                    style="background:#fff; border-left:5px solid #e74c3c; padding:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                    <h4>Pesticide Type B</h4>
+                    <p>Stock: 15 Units (LOW)</p>
+                    <div style="width:100%; background:#eee; height:5px; margin-top:5px;">
+                        <div style="width:10%; background:#e74c3c; height:5px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        const session = protectPage('vendor');
+        if (session) {
+            document.getElementById('userNameDisplay').textContent = session.name;
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+    </script>
+</body>
+
+</html>

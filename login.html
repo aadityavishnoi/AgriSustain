@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AgriSustain</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <div class="brand">
+                <h1>🌾 AgriSustain</h1>
+                <p>Empowering Agriculture Through Technology</p>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <span class="icon">🌱</span>
+                    <div>
+                        <h3>Smart Farming</h3>
+                        <p>Access modern agricultural tools and resources</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <span class="icon">👨‍🌾</span>
+                    <div>
+                        <h3>Expert Guidance</h3>
+                        <p>Connect with agricultural experts instantly</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <span class="icon">📊</span>
+                    <div>
+                        <h3>Data Analytics</h3>
+                        <p>Make informed decisions with real-time data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="login-box">
+                <h2>Welcome Back!</h2>
+                <p class="subtitle">Select your role to continue</p>
+
+                <!-- Role Selection -->
+                <div class="role-selection" id="roleSelection">
+                    <div class="role-card" onclick="selectRole('farmer')">
+                        <span class="role-icon">🌾</span>
+                        <h3>Farmer</h3>
+                        <p>Manage crops & marketplace</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole('helper')">
+                        <span class="role-icon">👷</span>
+                        <h3>Helper</h3>
+                        <p>View tasks & schedules</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole('vendor')">
+                        <span class="role-icon">🏪</span>
+                        <h3>Vendor</h3>
+                        <p>Manage inventory & orders</p>
+                    </div>
+                    <div class="role-card" onclick="selectRole('admin')">
+                        <span class="role-icon">⚙️</span>
+                        <h3>Admin</h3>
+                        <p>System management</p>
+                    </div>
+                </div>
+
+                <!-- Login Form (Hidden Initially) -->
+                <div class="login-form" id="loginForm" style="display: none;">
+                    <button class="back-btn" onclick="backToRoles()">← Back to Roles</button>
+
+                    <div class="selected-role-display">
+                        <span class="selected-role-icon" id="selectedRoleIcon"></span>
+                        <h3 id="selectedRoleTitle"></h3>
+                    </div>
+
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required placeholder="Enter your username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required
+                                placeholder="Enter your password">
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox">
+                                <input type="checkbox" id="rememberMe">
+                                <span>Remember me</span>
+                            </label>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="login-btn">Login</button>
+
+                        <div class="demo-credentials">
+                            <p><strong>Demo Credentials:</strong></p>
+                            <p id="demoCredentials"></p>
+                        </div>
+                    </form>
+
+                    <div class="register-link">
+                        Don't have an account? <a href="#">Register here</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="index.html">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+
+</html>

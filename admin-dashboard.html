@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AgriSustain</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>⚙️ Control Panel</h2>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <span class="icon">📊</span>
+                <span>System Overview</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">👥</span>
+                <span>User Management</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">📝</span>
+                <span>Content Control</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🛠️</span>
+                <span>Site Settings</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">📑</span>
+                <span>Reports</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="user-welcome">
+                <h1>Admin Console: <span id="userNameDisplay">Administrator</span></h1>
+                <p>Monitor platform health and user activity.</p>
+            </div>
+            <div class="header-actions">
+                <p id="currentDate"></p>
+            </div>
+        </div>
+
+        <!-- Admin Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <h3>Total Users</h3>
+                    <p>2,456</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-info">
+                    <h3>Active Vendors</h3>
+                    <p>87</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔔</div>
+                <div class="stat-info">
+                    <h3>Pending Approvals</h3>
+                    <p>12</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Approval List -->
+        <div class="feature-section">
+            <h2>🔔 Pending Expert Approvals</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Credentials</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dr. Anita Joshi</td>
+                        <td>PhD Agronomy, IARI</td>
+                        <td>Jan 10, 2026</td>
+                        <td><span class="status-badge status-pending">Under Review</span></td>
+                        <td><button style="color:green; border:none; background:none; cursor:pointer;">Approve</button>
+                            | <button style="color:red; border:none; background:none; cursor:pointer;">Reject</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prof. S. Venkatesh</td>
+                        <td>Expert in Hydrology</td>
+                        <td>Jan 12, 2026</td>
+                        <td><span class="status-badge status-pending">Documents Pending</span></td>
+                        <td><button
+                                style="color:grey; border:none; background:none; cursor:not-allowed;">Approve</button> |
+                            <button style="color:red; border:none; background:none; cursor:pointer;">Reject</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- System Alerts -->
+        <div class="feature-section">
+            <h2>⚠️ System Health</h2>
+            <div style="padding:15px; background:#fff border; border-radius:10px; border:1px solid #ddd;">
+                <p><b>Server Load:</b> <span style="color:green;">Normal (12%)</span></p>
+                <p><b>Database Connectivity:</b> <span style="color:green;">Stable</span></p>
+                <p><b>Chat API Status:</b> <span style="color:green;">Gemini API Active</span></p>
+                <hr style="margin:10px 0;">
+                <p><b>Last Backup:</b> Today 3:00 AM</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        const session = protectPage('admin');
+        if (session) {
+            document.getElementById('userNameDisplay').textContent = session.name;
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+    </script>
+</body>
+
+</html>

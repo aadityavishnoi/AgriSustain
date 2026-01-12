@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helper Dashboard - AgriSustain</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>👷 Helper Portal</h2>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <span class="icon">📋</span>
+                <span>My Tasks</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">📅</span>
+                <span>Work Schedule</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">🚜</span>
+                <span>Equipment</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">📚</span>
+                <span>Training</span>
+            </a>
+            <a href="#" class="menu-item">
+                <span class="icon">💳</span>
+                <span>Earnings</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="user-welcome">
+                <h1>Hello, <span id="userNameDisplay">Helper</span>!</h1>
+                <p>Check your assigned tasks for today.</p>
+            </div>
+            <div class="header-actions">
+                <p id="currentDate"></p>
+            </div>
+        </div>
+
+        <!-- Helper Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="stat-icon">✔️</div>
+                <div class="stat-info">
+                    <h3>Completed</h3>
+                    <p>12 Tasks</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <h3>Current Work</h3>
+                    <p>4 Hours</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3>Earnings</h3>
+                    <p>₹8,400</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="feature-section">
+            <h2>📋 Assigned Tasks</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Task Describe</th>
+                        <th>Farmer Name</th>
+                        <th>Location</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Fertilizer Application</td>
+                        <td>Rajesh Kumar</td>
+                        <td>Plot B-4</td>
+                        <td>Today 5:00 PM</td>
+                        <td><span class="status-badge status-pending">In Progress</span></td>
+                    </tr>
+                    <tr>
+                        <td>Irrigation Check</td>
+                        <td>Mahesh Babu</td>
+                        <td>North Fields</td>
+                        <td>Tomorrow</td>
+                        <td><span class="status-badge">Upcoming</span></td>
+                    </tr>
+                    <tr>
+                        <td>Harvesting Assist</td>
+                        <td>Rajesh Kumar</td>
+                        <td>Plot A-1</td>
+                        <td>Completed</td>
+                        <td><span class="status-badge status-active">Done</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Work Schedule -->
+        <div class="feature-section">
+            <h2>📅 This Week's Availability</h2>
+            <div style="display:flex; justify-content:space-between; text-align:center;">
+                <div style="padding:10px; flex:1; border:1px solid #ddd; background:#d4edda;">Mon<br><b>Available</b>
+                </div>
+                <div style="padding:10px; flex:1; border:1px solid #ddd; background:#d4edda;">Tue<br><b>Available</b>
+                </div>
+                <div style="padding:10px; flex:1; border:1px solid #ddd; background:#f8d7da;">Wed<br><b>Busy</b></div>
+                <div style="padding:10px; flex:1; border:1px solid #ddd; background:#d4edda;">Thu<br><b>Available</b>
+                </div>
+                <div style="padding:10px; flex:1; border:1px solid #ddd; background:#d4edda;">Fri<br><b>Available</b>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        const session = protectPage('helper');
+        if (session) {
+            document.getElementById('userNameDisplay').textContent = session.name;
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+    </script>
+</body>
+
+</html>
