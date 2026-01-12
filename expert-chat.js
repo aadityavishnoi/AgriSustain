@@ -1,5 +1,9 @@
 // ===== Expert Chat Functionality =====
 
+// OpenAI API Configuration
+const OPENAI_API_KEY = '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';
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+
 // Expert data
 const experts = {
     dr_sharma: {
@@ -89,6 +93,7 @@ function closeExpertPanel() {
 function startChat(expertId) {
     currentExpert = experts[expertId];
     messageCount = 0;
+    conversationHistory = []; // Reset conversation history
 
     // Update chat header
     document.getElementById('chatExpertAvatar').textContent = currentExpert.avatar;
@@ -122,8 +127,11 @@ function minimizeChat() {
     document.getElementById('expertPanel').style.display = 'block';
 }
 
-// Send message
-function sendMessage() {
+// Chat conversation history
+let conversationHistory = [];
+
+// Send message with ChatGPT API
+async function sendMessage() {
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
 
@@ -133,17 +141,63 @@ function sendMessage() {
     addUserMessage(message);
     input.value = '';
 
+    // Add to conversation history
+    conversationHistory.push({
+        role: 'user',
+        content: message
+    });
+
     // Show typing indicator
     showTypingIndicator();
 
-    // Simulate expert response after delay
-    setTimeout(() => {
+    try {
+        // Call OpenAI API
+        const response = await fetch(OPENAI_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4',
+                messages: [
+                    {
+                        role: 'system',
+                        content: `You are ${currentExpert.name}, a ${currentExpert.specialty} specializing in agricultural advice. Provide helpful, practical advice to farmers in a friendly and professional manner. Keep responses concise (2-3 sentences) and actionable. Use your expertise in ${currentExpert.specialty.toLowerCase()} to give specific recommendations.`
+                    },
+                    ...conversationHistory
+                ],
+                temperature: 0.7,
+                max_tokens: 200
+            })
+        });
+
+        const data = await response.json();
+
         removeTypingIndicator();
 
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            const expertResponse = data.choices[0].message.content;
+
+            // Add to conversation history
+            conversationHistory.push({
+                role: 'assistant',
+                content: expertResponse
+            });
+
+            addExpertMessage(expertResponse);
+        } else {
+            throw new Error('Invalid response from API');
+        }
+    } catch (error) {
+        console.error('Error calling OpenAI API:', error);
+        removeTypingIndicator();
+
+        // Fallback to pre-defined responses
         messageCount++;
         const responseIndex = Math.min(messageCount, currentExpert.responses.length - 1);
         addExpertMessage(currentExpert.responses[responseIndex]);
-    }, 1500 + Math.random() * 1000);
+    }
 }
 
 // Handle enter key in chat input
