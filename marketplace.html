@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AgriSustain Marketplace - Direct connection between farmers and vendors for agricultural produce">
+    <title>Marketplace - AgriSustain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="marketplace.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🌾</span>
+                <span class="logo-text">AgriSustain</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#education" class="nav-link">Education</a></li>
+                <li><a href="index.html#government" class="nav-link">Resources</a></li>
+                <li><a href="marketplace.html" class="nav-link active">Marketplace</a></li>
+            </ul>
+            <div class="user-actions">
+                <button class="btn-user" id="loginBtn">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Marketplace Hero -->
+    <section class="marketplace-hero">
+        <div class="container">
+            <h1>AgriSustain Marketplace</h1>
+            <p>Direct connection between farmers and vendors - Fair prices, transparent trading</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalFarmers">250+</span>
+                    <span class="stat-label">Active Farmers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalVendors">180+</span>
+                    <span class="stat-label">Verified Vendors</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalProducts">500+</span>
+                    <span class="stat-label">Products Listed</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Type Selection Modal -->
+    <div class="modal" id="userTypeModal">
+        <div class="modal-content">
+            <h2>Welcome to AgriSustain Marketplace</h2>
+            <p>Please select your account type to continue</p>
+            <div class="user-type-selection">
+                <div class="user-type-card" onclick="selectUserType('farmer')">
+                    <div class="user-type-icon">👨‍🌾</div>
+                    <h3>I'm a Farmer</h3>
+                    <p>Sell your crops directly to vendors</p>
+                    <ul>
+                        <li>List your produce</li>
+                        <li>Set your own prices</li>
+                        <li>Manage orders</li>
+                    </ul>
+                </div>
+                <div class="user-type-card" onclick="selectUserType('vendor')">
+                    <div class="user-type-icon">🏪</div>
+                    <h3>I'm a Vendor</h3>
+                    <p>Buy fresh crops directly from farmers</p>
+                    <ul>
+                        <li>Browse products</li>
+                        <li>Place bulk orders</li>
+                        <li>Track deliveries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Marketplace Content -->
+    <div class="marketplace-container">
+
+        <!-- Farmer Dashboard -->
+        <div class="dashboard farmer-dashboard" id="farmerDashboard" style="display: none;">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>Farmer Dashboard</h2>
+                    <button class="btn btn-primary" onclick="showAddProductModal()">
+                        <span>➕</span> List New Product
+                    </button>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Stats Cards -->
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-icon">📦</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="farmerProductCount">0</span>
+                                <span class="stat-name">My Listings</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="farmerOrderCount">0</span>
+                                <span class="stat-name">Pending Orders</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="farmerRevenue">₹0</span>
+                                <span class="stat-name">Total Revenue</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- My Products -->
+                    <div class="section-box">
+                        <h3>My Products</h3>
+                        <div class="products-list" id="myProductsList">
+                            <p class="empty-state">No products listed yet. Click "List New Product" to get started!</p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div class="section-box">
+                        <h3>Recent Orders</h3>
+                        <div class="orders-list" id="farmerOrdersList">
+                            <p class="empty-state">No orders yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendor Dashboard -->
+        <div class="dashboard vendor-dashboard" id="vendorDashboard" style="display: none;">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>Vendor Dashboard</h2>
+                    <div class="search-filter-bar">
+                        <input type="text" id="searchInput" placeholder="Search crops..." class="search-input">
+                        <select id="categoryFilter" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="grains">Grains</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="pulses">Pulses</option>
+                            <option value="spices">Spices</option>
+                        </select>
+                        <select id="locationFilter" class="filter-select">
+                            <option value="">All Locations</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="haryana">Haryana</option>
+                            <option value="up">Uttar Pradesh</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="karnataka">Karnataka</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="marketplace-content">
+                    <!-- Filters Sidebar -->
+                    <aside class="filters-sidebar">
+                        <h3>Filters</h3>
+                        <div class="filter-group">
+                            <h4>Organic Certified</h4>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="organicFilter">
+                                <span>Only Organic</span>
+                            </label>
+                        </div>
+                        <div class="filter-group">
+                            <h4>Price Range (per kg)</h4>
+                            <div class="price-inputs">
+                                <input type="number" id="minPrice" placeholder="Min" class="price-input">
+                                <span>-</span>
+                                <input type="number" id="maxPrice" placeholder="Max" class="price-input">
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="applyFilters()">Apply Filters</button>
+                        <button class="btn-text" onclick="clearFilters()">Clear All</button>
+                    </aside>
+
+                    <!-- Products Grid -->
+                    <div class="products-section">
+                        <div class="section-header-row">
+                            <h3>Available Products</h3>
+                            <select id="sortBy" class="sort-select" onchange="sortProducts()">
+                                <option value="recent">Most Recent</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="quantity">Quantity Available</option>
+                            </select>
+                        </div>
+                        <div class="products-grid" id="productsGrid">
+                            <!-- Products will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Orders Section -->
+                <div class="section-box" style="margin-top: 2rem;">
+                    <h3>My Orders</h3>
+                    <div class="orders-list" id="vendorOrdersList">
+                        <p class="empty-state">No orders placed yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content form-modal">
+            <div class="modal-header">
+                <h2>List New Product</h2>
+                <button class="close-btn" onclick="closeModal('addProductModal')">&times;</button>
+            </div>
+            <form id="addProductForm" onsubmit="addProduct(event)">
+                <div class="form-group">
+                    <label>Crop Name *</label>
+                    <input type="text" name="cropName" required placeholder="e.g., Wheat, Rice, Tomato">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select name="category" required>
+                            <option value="">Select category</option>
+                            <option value="grains">Grains</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="pulses">Pulses</option>
+                            <option value="spices">Spices</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity (kg) *</label>
+                        <input type="number" name="quantity" required min="1" placeholder="e.g., 100">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price per kg (₹) *</label>
+                        <input type="number" name="price" required min="1" step="0.01" placeholder="e.g., 25">
+                    </div>
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <select name="location" required>
+                            <option value="">Select location</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="haryana">Haryana</option>
+                            <option value="up">Uttar Pradesh</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="karnataka">Karnataka</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="organic">
+                        <span>Organic Certified</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="3"
+                        placeholder="Brief description of your product quality, harvest date, etc."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('addProductModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">List Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="productDetailName">Product Details</h2>
+                <button class="close-btn" onclick="closeModal('productDetailModal')">&times;</button>
+            </div>
+            <div id="productDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content form-modal">
+            <div class="modal-header">
+                <h2>Place Order</h2>
+                <button class="close-btn" onclick="closeModal('orderModal')">&times;</button>
+            </div>
+            <form id="orderForm" onsubmit="placeOrder(event)">
+                <div id="orderProductInfo"></div>
+                <div class="form-group">
+                    <label>Quantity (kg) *</label>
+                    <input type="number" id="orderQuantity" required min="1" placeholder="Enter quantity">
+                    <small id="availableQty"></small>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address *</label>
+                    <textarea id="deliveryAddress" required rows="3"
+                        placeholder="Enter complete delivery address"></textarea>
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Price per kg:</span>
+                        <span id="orderPricePerKg">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Quantity:</span>
+                        <span id="orderQty">0 kg</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Amount:</span>
+                        <span id="orderTotal">₹0</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('orderModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AgriSustain</h3>
+                    <p>Direct marketplace for farmers and vendors</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#education">Education</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Kisan Call Center: 1800-180-1551</p>
+                    <p>Available 24/7</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AgriSustain. Built with ❤️ for farmers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="marketplace.js"></script>
+</body>
+
+</html>
